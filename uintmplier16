@@ -9,7 +9,7 @@ module uintmplier16(
 	uintpps16 UPP1 	(mcand, mplier[1], 	pp1);
 	uintpps16 UPP2 	(mcand, mplier[2], 	pp2);
 	uintpps16 UPP3 	(mcand, mplier[3], 	pp3);
-	uintpps16 UPP4		(mcand, mplier[4], 	pp4);
+	uintpps16 UPP4	(mcand, mplier[4], 	pp4);
 	uintpps16 UPP5 	(mcand, mplier[5], 	pp5);
 	uintpps16 UPP6 	(mcand, mplier[6], 	pp6);
 	uintpps16 UPP7 	(mcand, mplier[7], 	pp7);
