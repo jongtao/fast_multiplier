@@ -17,17 +17,7 @@ module mplier16(
 	pps16 PP2 	(mcand, rec2, 	pp2);
 	pps16 PP3 	(mcand, rec3, 	pp3);
 	
-	/*
-	stages32 ALLSTAGE (sums, couts, { {29{pp0[34]}}, pp0 }, { {26{pp1[34]}},pp1,3'd0}, { {23{pp2[34]}},pp2,6'd0},
-			{ {20{pp3[34]}},pp3,9'd0}, { {17{pp4[34]}},pp4,12'd0}, { {14{pp5[34]}},pp5,15'd0}, { {11{pp6[34]}},pp6,18'd0}, 
-			{ {8{pp7[34]}},pp7,21'd0}, { {5{pp8[34]}},pp8,24'd0}, { { 2{pp9[34]}},pp9,27'd0}, {pp10, 29'd0} );
-	*/
-	
 	assign product = { {6{pp0[9]}}, pp0 } + { {4{pp1[9]}},pp1,2'd0} + { {2{pp2[9]}},pp2,4'd0} +  {pp3,6'd0};
-	
-	
-	
-
 	
 endmodule // mplier32
 
