@@ -7,9 +7,9 @@ module mplier16(
 	wire [9:0] pp0, pp1, pp2, pp3;
 	
 	recode4 REC0	({mplier[1:0],1'b0},		rec0);
-	recode4 REC1	(mplier[3:1],				rec1);
-	recode4 REC2	(mplier[5:3],				rec2);
-	recode4 REC3	(mplier[7:5],				rec3);
+	recode4 REC1	(mplier[3:1],			rec1);
+	recode4 REC2	(mplier[5:3],			rec2);
+	recode4 REC3	(mplier[7:5],			rec3);
 	
 	
 	pps16 PP0 	(mcand, rec0, 	pp0);
@@ -17,7 +17,9 @@ module mplier16(
 	pps16 PP2 	(mcand, rec2, 	pp2);
 	pps16 PP3 	(mcand, rec3, 	pp3);
 	
+	
 	assign product = { {6{pp0[9]}}, pp0 } + { {4{pp1[9]}},pp1,2'd0} + { {2{pp2[9]}},pp2,4'd0} +  {pp3,6'd0};
+	
 	
 endmodule // mplier32
 
