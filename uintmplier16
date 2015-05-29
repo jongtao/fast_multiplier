@@ -1,0 +1,44 @@
+module uintmplier16( 
+	output [15:0] product, 
+	input [7:0] mplier, mcand
+	);
+	
+	wire [7:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7;
+	
+	uintpps16 UPP0 	(mcand, mplier[0], 	pp0);
+	uintpps16 UPP1 	(mcand, mplier[1], 	pp1);
+	uintpps16 UPP2 	(mcand, mplier[2], 	pp2);
+	uintpps16 UPP3 	(mcand, mplier[3], 	pp3);
+	uintpps16 UPP4		(mcand, mplier[4], 	pp4);
+	uintpps16 UPP5 	(mcand, mplier[5], 	pp5);
+	uintpps16 UPP6 	(mcand, mplier[6], 	pp6);
+	uintpps16 UPP7 	(mcand, mplier[7], 	pp7);
+	
+	assign product = { {8'd0, pp0} +  {7'd0,pp1,1'd0} + {6'd0,pp2,2'd0} +  {5'd0,pp3,3'd0}
+						+ {4'd0,pp4,4'd0} + {3'd0,pp5,5'd0} + {2'd0,pp6,6'd0} + {1'd0,pp7,7'd0}	};
+	
+	
+endmodule // mplier32
+
+
+
+module uintpps16(mcand, mplierbit, partprod);
+
+	localparam 
+		MCAND_LEN = 8, 
+		RADIX_LEN = 3;
+
+	input [MCAND_LEN-1:0] mcand;
+	input mplierbit;
+	output reg [MCAND_LEN-1:0] partprod;
+	
+	
+always @(*) begin
+		if (mplierbit)
+			partprod = mcand;
+		else
+			partprod = 8'd0;
+end
+	
+endmodule
+
