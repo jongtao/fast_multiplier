@@ -84,37 +84,37 @@ module wallaceuint16( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7);
 	fa W2 	( a_w[2], w2cout, pp0[2], pp1[1], pp2[0] );
 	assign b_w[2] = 1'b0;
 	
-	fa2 W3 	( a_w[3], w3cout, {w2cout, pp0[3], pp1[2], pp2[1], pp3[0]} );
+	fas2 W3 	( a_w[3], w3cout, {w2cout, pp0[3], pp1[2], pp2[1], pp3[0]} );
 	assign b_w[3] = 1'b0;
 	
-	fa3 W4 	( a_w[4], w4cout, {w3cout, pp0[4], pp1[3], pp2[2], pp3[1], pp4[0]} );
+	fas3 W4 	( a_w[4], w4cout, {w3cout, pp0[4], pp1[3], pp2[2], pp3[1], pp4[0]} );
 	assign b_w[4] = 1'b0;
 	
-	fa4 W5 	( a_w[5], w5cout, {w4cout, pp0[5], pp1[4], pp2[3], pp3[2], pp4[1], pp5[0]} );
+	fas4 W5 	( a_w[5], w5cout, {w4cout, pp0[5], pp1[4], pp2[3], pp3[2], pp4[1], pp5[0]} );
 	assign b_w[5] = 1'b0;
 	
-	fa5 W6 	( a_w[6], w6cout, {w5cout, pp0[6], pp1[5], pp2[4], pp3[3], pp4[2], pp5[1], pp6[0]} );
+	fas5 W6 	( a_w[6], w6cout, {w5cout, pp0[6], pp1[5], pp2[4], pp3[3], pp4[2], pp5[1], pp6[0]} );
 	assign b_w[6] = 1'b0;
 	
-	fa6 W7 	( a_w[7], w7cout, {w6cout, pp0[7], pp1[6], pp2[5], pp3[4], pp4[3], pp5[2], pp6[1], pp7[0]} );
+	fas6 W7 	( a_w[7], w7cout, {w6cout, pp0[7], pp1[6], pp2[5], pp3[4], pp4[3], pp5[2], pp6[1], pp7[0]} );
 	assign b_w[7] = 1'b0;
 	
-	fa6 W8 	( a_w[8], w8cout, {w7cout, pp1[7], pp2[6], pp3[5], pp4[4], pp5[3], pp6[2], pp7[1]} );
+	fas6 W8 	( a_w[8], w8cout, {w7cout, pp1[7], pp2[6], pp3[5], pp4[4], pp5[3], pp6[2], pp7[1]} );
 	assign b_w[8] = 1'b0;
 	
-	fa5 W9 	( a_w[9], w9cout, {w8cout[4:0], pp2[7], pp3[6], pp4[5], pp5[4], pp6[3], pp7[2]} );
+	fas5 W9 	( a_w[9], w9cout, {w8cout[4:0], pp2[7], pp3[6], pp4[5], pp5[4], pp6[3], pp7[2]} );
 	assign b_w[9] = w8cout[5];
 	
-	fa4 W10 	( a_w[10], w10cout, {w9cout[3:0], pp3[7], pp4[6], pp5[5], pp6[4], pp7[3]} );
+	fas4 W10 	( a_w[10], w10cout, {w9cout[3:0], pp3[7], pp4[6], pp5[5], pp6[4], pp7[3]} );
 	assign b_w[10] = w9cout[4];
 	
-	fa3 W11 	( a_w[11], w11cout, {w10cout[2:0], pp4[7], pp5[6], pp6[5], pp7[4]} );
+	fas3 W11 	( a_w[11], w11cout, {w10cout[2:0], pp4[7], pp5[6], pp6[5], pp7[4]} );
 	assign b_w[11] = w10cout[3];
 
-	fa2 W12 	( a_w[12], w12cout, {w11cout[1:0], pp5[7], pp6[6], pp7[5]} );
+	fas2 W12 	( a_w[12], w12cout, {w11cout[1:0], pp5[7], pp6[6], pp7[5]} );
 	assign b_w[12] = w11cout[2];
 
-	fa W13 ( a_w[13], w13cout, {w12cout[0], pp6[7], pp7[6]} );
+	fa W13 ( a_w[13], w13cout, w12cout[0], pp6[7], pp7[6] );
 	assign b_w[13] = w12cout[1];
 
 	assign a_w[14] = pp7[7];
@@ -132,13 +132,9 @@ module wallaceuint16( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7);
 
 endmodule
 
-module fa(sum,c_out,c_in,x,y);  //full adder
-   input x,y,c_in;
-   output sum,c_out;
-   assign {c_out,sum}=x+y+c_in;
-endmodule //fa
 
-module fas2 (a, cout, fanin) //
+
+module fas2 (a, cout, fanin); //
 
 	input [4:0] fanin;
 	output a;
@@ -146,12 +142,12 @@ module fas2 (a, cout, fanin) //
 	
 	wire sum1;
 	
-	fa (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa (a, cout[1], fanin[3], fanin[4], sum1);
+	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
+	fa FA2(a, cout[1], fanin[3], fanin[4], sum1);
 
 endmodule //
 
-module fas3 (a, cout, fanin)
+module fas3 (a, cout, fanin);
 
 	input [6:0] fanin;
 	output a;
@@ -159,13 +155,13 @@ module fas3 (a, cout, fanin)
 	
 	wire sum1, sum2;
 	
-	fa (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa (sum2, cout[1], sum1 , fanin[4], fanin[3]);
-	fa (a, cout[2], sum2, fanin[6], fanin[5]);
+	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
+	fa FA2(sum2, cout[1], sum1 , fanin[4], fanin[3]);
+	fa FA3(a, cout[2], sum2, fanin[6], fanin[5]);
 
 endmodule
 
-module fas4 (a, cout, fanin)
+module fas4 (a, cout, fanin);
 
 	input [8:0] fanin;
 	output a;
@@ -173,16 +169,16 @@ module fas4 (a, cout, fanin)
 	
 	wire sum1, sum2, sum3;
 	
-	fa (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa (sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa (sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa (a, cout[3], sum2, sum3, sum1);
+	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
+	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
+	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
+	fa FA4(a, cout[3], sum2, sum3, sum1);
 
 endmodule
 
 
 
-module fas5 (a, cout, fanin)
+module fas5 (a, cout, fanin);
 
 	input [10:0] fanin;
 	output a;
@@ -190,17 +186,17 @@ module fas5 (a, cout, fanin)
 	
 	wire sum1, sum2, sum3, sum4;
 	
-	fa (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa (sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa (sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa (sum4, cout[3], sum1, fanin[10], fanin[9]);
-	fa (a, cout[4], sum2, sum3, sum4);
+	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
+	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
+	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
+	fa FA4(sum4, cout[3], sum1, fanin[10], fanin[9]);
+	fa FA5(a, cout[4], sum2, sum3, sum4);
 
 
 endmodule
 
 
-module fas6 (a, cout, fanin)
+module fas6 (a, cout, fanin);
 
 	input [12:0] fanin;
 	output a;
@@ -208,17 +204,22 @@ module fas6 (a, cout, fanin)
 	
 	wire sum1, sum2, sum3, sum4, sum5;
 	
-	fa (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa (sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa (sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa (sum4, cout[3], fanin[11], fanin[10], fanin[9]);
-	fa (sum5, cout[4], sum1, sum2, fanin[12]);
-	fa (a, cout[5], sum3 , sum5, sum4);
+	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
+	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
+	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
+	fa FA4(sum4, cout[3], fanin[11], fanin[10], fanin[9]);
+	fa FA5(sum5, cout[4], sum1, sum2, fanin[12]);
+	fa FA6(a, cout[5], sum3 , sum5, sum4);
 
-	assign b = fanin[13];
 
 endmodule
 
+
+module fa(sum,c_out,c_in,x,y);  //full adder
+   input x,y,c_in;
+   output sum,c_out;
+   assign {c_out,sum}=x+y+c_in;
+endmodule //fa
 
 
 
