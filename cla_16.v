@@ -46,4 +46,9 @@ module CLA_4(
 		(G[0] & P[1] & P[2] & P[3]) | (Cin & P[0] & P[1] & P[2] & P[3]);
 
 	// TODO: compute sum
+
+	slim_adder add0(s[0],c[0],x[0],y[0]);
+	slim_adder add1(s[1],c[1],x[1],y[1]);
+	slim_adder add2(s[2],c[2],x[2],y[2]);
+	slim_adder add3(s[3],c[3],x[3],y[3]);
 endmodule // group
