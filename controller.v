@@ -112,7 +112,7 @@ module controller(clock, reset, mode, done, product);
 	
 	
 	//dummy_u8 mu8(uP_8, uA_8, uB_8);
-	uintmplier16 mu8(P_u8, uA_8, uB_8);
+	uintmplier16 mu8(uP_8, uA_8, uB_8);
 	dummy_8 m8(P_8, A_8, B_8);
 	dummy_16 m16(P_16, A_16, B_16);
 		
