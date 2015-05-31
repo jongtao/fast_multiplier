@@ -16,6 +16,8 @@ module controller(clock, reset, mode, done, product);
 	wire[63:0] P_32;
 	wire[95:0] P_48;
 	wire[127:0] P_64;
+
+	reg [1:0] tmp_mode;
 /*
 	// States of FSM
 	reg [1:0] state, next;
@@ -55,7 +57,9 @@ module controller(clock, reset, mode, done, product);
 	*/
 	
 	// load inputs
-	always @(posedge clock)
+	always @(posedge clock) begin
+		tmp_mode <= mode;	
+
 		case(mode)
 			M1, M2: begin
 				A_32 <= bank[A_addr][31:0];
@@ -69,12 +73,13 @@ module controller(clock, reset, mode, done, product);
 				A_64 <= bank[A_addr];
 				B_64 <= bank[B_addr];
 			end
-		endcase
+		endcase // mode
+	end // always clock
 
 
 	// load output
-	always @(mode, P_32, P_48, P_64)
-		case(mode)
+	always @(tmp_mode, P_32, P_48, P_64)
+		case(tmp_mode)
 			M1, M2: product = P_32;
 			M3: product = P_48;
 			M4: product = P_64;
