@@ -2,7 +2,7 @@ module tb_controller;
 	reg clock, reset;
 	reg [1:0] mode;
 	wire done;
-	wire [127:0] product;
+	wire [31:0] product;
 	
 	controller dut1(clock, reset, mode, done, product);
 	

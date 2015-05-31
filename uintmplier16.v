@@ -1,5 +1,5 @@
 module uintmplier16( 
-	output [16:0] product, 
+	output [15:0] product, 
 	input [7:0] mplier, mcand
 	);
 	
@@ -19,7 +19,8 @@ module uintmplier16(
 	wallaceuint16 WAL16( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7);
 	
 	
-	Cla16 CLA({1'b0,a}, {1'b0,b}, 1'b0, product);
+	//Cla16 CLA({1'b0,a}, {1'b0,b}, 1'b0, product);
+	CLA_16 CLA(product, {1'b0,a}, {1'b0,b});
 	
 //	assign product = { {8'd0, pp0} +  {7'd0,pp1,1'd0} + {6'd0,pp2,2'd0} +  {5'd0,pp3,3'd0}
 //						+ {4'd0,pp4,4'd0} + {3'd0,pp5,5'd0} + {2'd0,pp6,6'd0} + {1'd0,pp7,7'd0}	};
