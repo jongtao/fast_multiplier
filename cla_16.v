@@ -23,7 +23,8 @@ module CLA_4(
 	output GG,PP
 	);
 
-	wire [3:0] G,P,c;
+	wire [3:0] G,P;
+	wire [2:0]c;
 
 	assign G[0] = x[0] & y[0];
 	assign G[1] = x[1] & y[1];
@@ -42,9 +43,14 @@ module CLA_4(
 	assign c[2] = G[2] | (G[1] & P[2]) | (G[0] & P[1] & P[2]) |
 		(Cin & P[0] & P[1] & P[2]);
 
+	assign GG = G[3] | (G[2] & P[3]) | (G[1] & P[2] & P[3]) |
+		(G[0] & P[1] & P[2] & P[3]);
+	
+	assign PP = P[0] & P[1] & P[2] & P[3];
+/*
 	assign c[3] = G[3] | (G[2] & P[3]) | (G[1] & P[2] & P[3]) |
 		(G[0] & P[1] & P[2] & P[3]) | (Cin & P[0] & P[1] & P[2] & P[3]);
-
+*/
 	slim_adder add0(s[0],Cin,x[0],y[0]);
 	slim_adder add1(s[1],c[0],x[1],y[1]);
 	slim_adder add2(s[2],c[1],x[2],y[2]);

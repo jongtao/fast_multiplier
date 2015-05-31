@@ -7,9 +7,9 @@ module mplier16(
 	wire [9:0] pp0, pp1, pp2, pp3;
 	
 	recode4 REC0	({mplier[1:0],1'b0},		rec0);
-	recode4 REC1	(mplier[3:1],			rec1);
-	recode4 REC2	(mplier[5:3],			rec2);
-	recode4 REC3	(mplier[7:5],			rec3);
+	recode4 REC1	(mplier[3:1],				rec1);
+	recode4 REC2	(mplier[5:3],				rec2);
+	recode4 REC3	(mplier[7:5],				rec3);
 	
 	
 	pps16 PP0 	(mcand, rec0, 	pp0);
