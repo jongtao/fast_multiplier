@@ -1,4 +1,4 @@
-module uintmplier16( 
+module mplieru8x8( 
 	output [15:0] product, 
 	input [7:0] mplier, mcand
 	);

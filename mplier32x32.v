@@ -1,4 +1,4 @@
-module mplier32( 
+module mplier32x32( 
 	output [63:0] product, 
 	input [31:0] mplier, mcand
 	);
