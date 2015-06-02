@@ -10,11 +10,11 @@ module controller(clock, reset, mode, done, product);
 	
 	// buffers
 
-	reg[7:0] uA_8, uB_8;
+	reg[7:0] A_u8, B_u8;
 	reg[7:0] A_8, B_8;
 	reg[15:0] A_16, B_16;
 	
-	wire[15:0] uP_8;
+	wire[15:0] P_u8;
 	wire[15:0] P_8;
 	wire[31:0] P_16;
 
@@ -75,8 +75,8 @@ module controller(clock, reset, mode, done, product);
 
 		case(mode)
 			M4, M1: begin // make M4 default here for now
-				uA_8 <= bank[A_addr][7:0];
-				uB_8 <= bank[B_addr][7:0];
+				A_u8 <= bank[A_addr][7:0];
+				B_u8 <= bank[B_addr][7:0];
 			end
 			M2: begin
 				A_8 <= bank[A_addr][7:0];
@@ -97,9 +97,9 @@ module controller(clock, reset, mode, done, product);
 
 
 	// load output
-	always @(tmp_mode, uP_8, P_8, P_16)
+	always @(tmp_mode, P_u8, P_8, P_16)
 		case(tmp_mode)
-			M4, M1: product = uP_8; // M4 default here for now
+			M4, M1: product = P_u8; // M4 default here for now
 			M2: product = P_8;
 			M3: product = P_16;
 			//M4: product = P_64;
@@ -111,8 +111,8 @@ module controller(clock, reset, mode, done, product);
 
 	
 	
-	//dummy_u8 mu8(uP_8, uA_8, uB_8);
-	uintmplier16 mu8(uP_8, uA_8, uB_8);
+	//dummy_u8 mu8(P_u8, A_u8, B_u8);
+	mplieru8x8 mu8(P_u8, A_u8, B_u8);
 	dummy_8 m8(P_8, A_8, B_8);
 	dummy_16 m16(P_16, A_16, B_16);
 		
