@@ -2,7 +2,7 @@ module controller(clock, reset, mode, done, product);
 	input clock, reset;
 	input [1:0] mode;
 	output reg done;
-	output reg [31:0] product;
+	output reg [63:0] product;
 
 	// RAM 32x64
 	reg [63:0] bank [31:0];
@@ -13,10 +13,12 @@ module controller(clock, reset, mode, done, product);
 	reg[7:0] A_u8, B_u8;
 	reg[7:0] A_8, B_8;
 	reg[15:0] A_16, B_16;
+	reg[31:0] A_32, B_32;
 	
 	wire[15:0] P_u8;
 	wire[15:0] P_8;
 	wire[31:0] P_16;
+	wire[63:0] P_32;
 
 	/*
 	reg[31:0] A_32, B_32;
@@ -86,12 +88,10 @@ module controller(clock, reset, mode, done, product);
 				A_16 <= bank[A_addr][15:0];
 				B_16 <= bank[B_addr][15:0];
 			end
-			/*
 			M4: begin
-				A_64 <= bank[A_addr];
-				B_64 <= bank[B_addr];
+				A_32 <= bank[A_addr];
+				B_32 <= bank[B_addr];
 			end
-			*/
 		endcase // mode
 	end // always clock
 
@@ -99,9 +99,10 @@ module controller(clock, reset, mode, done, product);
 	// load output
 	always @(tmp_mode, P_u8, P_8, P_16)
 		case(tmp_mode)
-			M4, M1: product = P_u8; // M4 default here for now
+			M1: product = P_u8; // M4 default here for now
 			M2: product = P_8;
 			M3: product = P_16;
+			M4: product = P_32;
 			//M4: product = P_64;
 		endcase
 
