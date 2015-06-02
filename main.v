@@ -6,7 +6,7 @@ module main(SW, KEY, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7);
 
 	wire [31:0] product;
 
-	controller mul1(~KEY[3], KEY[2], ~SW[1:0], LEDR[0], product);
+	controller mul1(~KEY[3], KEY[2], SW[1:0], LEDR[0], product);
 
 	segment disp0(product[3:0], HEX0);
 	segment disp1(product[7:4], HEX1);
