@@ -18,18 +18,11 @@ module mplieru8x8(
 	
 	wallaceuint16 WAL16( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7);
 	
-	
-	//Cla16 CLA({1'b0,a}, {1'b0,b}, 1'b0, product);
 	CLA_16 CLA(product, {1'b0,a}, {1'b0,b});
 	
 //	assign product = { {8'd0, pp0} +  {7'd0,pp1,1'd0} + {6'd0,pp2,2'd0} +  {5'd0,pp3,3'd0}
 //						+ {4'd0,pp4,4'd0} + {3'd0,pp5,5'd0} + {2'd0,pp6,6'd0} + {1'd0,pp7,7'd0}	};
-						
-						
-
-						
-						
-						
+									
 endmodule // uintmplier32
 
 
@@ -135,138 +128,4 @@ module wallaceuint16( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7);
 endmodule
 
 
-
-module fas2 (a, cout, fanin); //
-
-	input [4:0] fanin;
-	output a;
-	output [1:0] cout;
-	
-	wire sum1;
-	
-	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA2(a, cout[1], fanin[3], fanin[4], sum1);
-
-endmodule //
-
-module fas3 (a, cout, fanin);
-
-	input [6:0] fanin;
-	output a;
-	output [2:0] cout;
-	
-	wire sum1, sum2;
-	
-	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA2(sum2, cout[1], sum1 , fanin[4], fanin[3]);
-	fa FA3(a, cout[2], sum2, fanin[6], fanin[5]);
-
-endmodule
-
-module fas4 (a, cout, fanin);
-
-	input [8:0] fanin;
-	output a;
-	output [3:0] cout;
-	
-	wire sum1, sum2, sum3;
-	
-	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa FA4(a, cout[3], sum2, sum3, sum1);
-
-endmodule
-
-
-
-module fas5 (a, cout, fanin);
-
-	input [10:0] fanin;
-	output a;
-	output [4:0] cout;
-	
-	wire sum1, sum2, sum3, sum4;
-	
-	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa FA4(sum4, cout[3], sum1, fanin[10], fanin[9]);
-	fa FA5(a, cout[4], sum2, sum3, sum4);
-
-
-endmodule
-
-
-module fas6 (a, cout, fanin);
-
-	input [12:0] fanin;
-	output a;
-	output [5:0] cout;
-	
-	wire sum1, sum2, sum3, sum4, sum5;
-	
-	fa FA1(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA2(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa FA3(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa FA4(sum4, cout[3], fanin[11], fanin[10], fanin[9]);
-	fa FA5(sum5, cout[4], sum1, sum2, fanin[12]);
-	fa FA6(a, cout[5], sum3 , sum5, sum4);
-
-
-endmodule
-
-
-module Cla16(a, b, ci, co);
-	input [15:0] a, b;
-	input ci;
-	output [16:0] co;
-	
-	wire [15:0] p, g;
-	wire [3:0] p4, g4;
-	wire p16, g16;
-	
-	assign p = a ^ b;
-	assign g = a & b;
-	
-	PG4 pg10 (p[3:0], g[3:0], p4[0], g4[0]);
-	PG4 pg11 (p[7:4], g[7:4], p4[1], g4[1]);
-	PG4 pg12 (p[11:8], g[11:8], p4[2], g4[2]);
-	PG4 pg13 (p[15:12], g[15:12], p4[3], g4[3]);
-	
-	PG4 pg2 (p4, g4, p16, g16);
-	
-	assign co[16] = g16 | ci & p16;
-	assign co[0] = ci;
-	
-	Carry4 c20(ci, p[2:0], g[2:0], co [3:1]);
-	Carry4 c21(co[4], p[6:4], g[6:4], co [7:5]);
-	Carry4 c22(co[8], p[10:8], g[10:8], co [11:9]);
-	Carry4 c23(co[12], p[14:12], g[14:12], co [15:13]);
-
-
-endmodule
-
-
-module PG4(pi, gi, po, go);
-	input [3:0] pi, gi;
-	output po, go;
-	
-	assign po = &pi;
-	assign go = gi[3] | (gi[2] & pi[3]) | (gi[1] & (&pi[3:2])) | gi[0] & (&pi[3:1]);
-	
-
-endmodule
-
-
-module Carry4(ci, p, g, co);
-	input ci;
-	input [2:0] p, g;
-	output [2:0] co;
-	
-	wire [3:0] gg = {g,ci};
-	assign co = (gg >> 1) | (gg & p) | ((gg<<1) & p & (p << 1)) | ((gg<<2) & p & (p<<1) & (p<<2));
-	
-endmodule
-	
 

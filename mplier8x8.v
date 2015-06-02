@@ -24,26 +24,6 @@ module mplier8x8(
 endmodule // mplier32
 
 
-
-
-module recode4(grouping, recoded);
-	input [2:0] grouping;
-	output reg [2:0] recoded;
-
-	always @(*) begin
-		case (grouping)
-			0,7: 		recoded = 3'd0;
-			1,2:		recoded = 3'd1;
-			3:			recoded = 3'd2;
-			4:			recoded = -3'd2;
-			5,6:		recoded = -3'd1;
-			default:	recoded = 3'd0;
-		endcase
-	end
-endmodule
-
-
-
 module pps16(mcand, recoding, partprod);
 	localparam 
 		MCAND_LEN = 8, 

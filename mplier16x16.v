@@ -1,5 +1,5 @@
 module mplier16x16(
-	output [33:0] product, 
+	output [31:0] product, 
 	input [15:0] mplier, mcand
 	);
 	
@@ -25,49 +25,14 @@ module mplier16x16(
 	wallace16x16  WAL16X16( a, b, pp0, pp1, pp2, pp3, pp4, pp5);
 	
 	
-	assign product = { {15{pp0[18]}}, pp0 } + { {12{pp1[18]}},pp1,3'd0} + { {9{pp2[18]}},pp2,6'd0} 
-		+ { {6{pp3[18]}},pp3,9'd0} + { {3{pp4[18]}},pp4,12'd0} + {pp5,15'd0};
+	//assign product = { {15{pp0[18]}}, pp0 } + { {12{pp1[18]}},pp1,3'd0} + { {9{pp2[18]}},pp2,6'd0} 
+	//	+ { {6{pp3[18]}},pp3,9'd0} + { {3{pp4[18]}},pp4,12'd0} + {pp5,15'd0};
+	
+	assign product = a + b;
 						
 						
 endmodule // mplier16x16
 
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-
-module recode8(grouping, recoded);
-
-	input [3:0] grouping;
-	output reg [3:0] recoded;
-
-always @(*) begin
-
-case (grouping)
-	0,15: 	recoded = 4'd0;
-	1,2:		recoded = 4'd1;
-	3,4: 		recoded = 4'd2;
-	5,6: 		recoded = 4'd3;
-	7:			recoded = 4'd4;
-	8: 		recoded = -4'd4;
-	9,10:		recoded = -4'd3;
-	11,12:	recoded = -4'd2;
-	13,14:	recoded = -4'd1;
-	default:	recoded = 4'd0;
-	
-endcase
-end
-	
-endmodule // recode8
-
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
 
 module pps16x16(mcand, recoding, partprod);
 
@@ -121,13 +86,6 @@ always @(*) begin
 end
 	
 endmodule	//pps16x16
-
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
-//==============================================================================
 
 
 module wallace16x16( a, b, pp0, pp1, pp2, pp3, pp4, pp5);
@@ -268,57 +226,6 @@ module wallace16x16( a, b, pp0, pp1, pp2, pp3, pp4, pp5);
 
 
 endmodule // wallace16x16
-
-module fa(sum,c_out,c_in,x,y);  //full adder
-   input x,y,c_in;
-   output sum,c_out;
-   assign {c_out,sum}=x+y+c_in;
-endmodule //fa
-
-module fas2 (a, cout, fanin);
-
-	input [4:0] fanin;
-	output a;
-	output [1:0] cout;
-	
-	wire sum1;
-	
-	fa FA0 (sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA1 (a, cout[1], fanin[3], fanin[4], sum1);
-
-endmodule //
-
-module fas3 (a, cout, fanin);
-
-	input [6:0] fanin;
-	output a;
-	output [2:0] cout;
-	
-	wire sum1, sum2;
-	
-	fa FA0(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA1(sum2, cout[1], sum1 , fanin[4], fanin[3]);
-	fa FA2(a, cout[2], sum2, fanin[6], fanin[5]);
-
-endmodule
-
-module fas4 (a, cout, fanin);
-
-	input [8:0] fanin;
-	output a;
-	output [3:0] cout;
-	
-	wire sum1, sum2, sum3;
-	
-	fa FA0(sum1, cout[0], fanin[2], fanin[1], fanin[0]);
-	fa FA1(sum2, cout[1], fanin[5], fanin[4], fanin[3]);
-	fa FA2(sum3, cout[2], fanin[8], fanin[7], fanin[6]);
-	fa FA3(a, cout[3], sum2, sum3, sum1);
-
-endmodule
-
-
-
 
 
 
