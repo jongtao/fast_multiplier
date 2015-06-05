@@ -28,6 +28,8 @@ module mplier16x16(
 	//assign product = { {15{pp0[18]}}, pp0 } + { {12{pp1[18]}},pp1,3'd0} + { {9{pp2[18]}},pp2,6'd0} 
 	//	+ { {6{pp3[18]}},pp3,9'd0} + { {3{pp4[18]}},pp4,12'd0} + {pp5,15'd0};
 	
+	wire [31:0] test_product;
+	assign test_product = a + b;
 	//assign product = a + b;
 	CLA_32 add(product, GG, PP, a, b, 1'b0);
 						
