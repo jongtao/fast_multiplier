@@ -1,3 +1,31 @@
+module CLA_64(
+	output [63:0] s,
+	output GG, PP,
+	input [63:0] x, y,
+	input Cin);
+
+	wire [3:0] G,P;
+	wire [2:0] c;
+
+	assign c[0] = G[0] | (Cin & P[0]);
+	assign c[1] = G[1] | (G[0] & P[1]) | (Cin & P[0] & P[1]);
+	assign c[2] = G[2] | (G[1] & P[1]) | (G[0] & P[1] & P[2]) |
+		(Cin & P[0] & P[1] & P[2] & P[3]);
+
+	assign GG = G[3] | (G[2] & P[3]) | (G[1] & P[2] & P[3]) |
+		(G[0] & P[0] & P[1] & P[2] & P[3]);
+	assign PP = P[0] & P[1] & P[2] & P[3];
+
+
+	CLA_16 add0(x[15:0], y[15:0], 1'b0, s[15:0], G[0], P[0]);
+	CLA_16 add1(x[31:16], y[31:16], c[0], s[31:16], G[1], P[1]);
+	CLA_16 add2(x[47:32], y[47:32], c[1], s[47:32], G[2], P[2]);
+	CLA_16 add3(x[63:48], y[63:48], c[2], s[63:48], G[3], P[3]);
+endmodule // CLA_32
+
+
+
+
 module CLA_32(
 	output [31:0] s,
 	output GG, PP,
