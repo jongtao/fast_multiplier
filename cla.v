@@ -2,7 +2,8 @@ module CLA_64(
 	output [63:0] s,
 	output GG, PP,
 	input [63:0] x, y,
-	input Cin);
+	input Cin
+	);
 
 	wire [3:0] G,P;
 	wire [2:0] c;
