@@ -123,6 +123,7 @@ endmodule // controller
 
 
 
+/*
 module dummy_u8(
 	output [15:0] product,
 	input [7:0] A, B
@@ -148,7 +149,7 @@ module dummy_16(
 	
 	assign product = A * B;
 endmodule
-
+*/
 
 /*
 module dummy_32(
