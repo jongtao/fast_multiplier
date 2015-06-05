@@ -5,7 +5,8 @@ module mplier32x32(
 	
 	wire [3:0] rec0, rec1, rec2, rec3, rec4, rec5, rec6, rec7, rec8, rec9, rec10;
 	wire [34:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10;
-	wire [63:0] a,b, correctproduct;
+	wire [63:0] a,b;
+	
 	
 	recode8 REC0	({mplier[2:0],1'b0},				rec0);
 	recode8 REC1	(mplier[5:2],							rec1);
@@ -32,9 +33,10 @@ module mplier32x32(
 	pps32 PP10 	(mcand, rec10, pp10);
 	
 	wallace32x32 WALL32( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10);
+	CLA_64 add(product, GG, PP, a, b, 1'b0);
 	
-	assign product = a + b;
-	assign correctproduct = mplier * mcand;
+	wire [63:0] testproduct;
+	assign testproduct = a + b;
 	
 
 	
@@ -110,16 +112,13 @@ module wallace32x32( a, b, pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp1
 	wire [5:0] w21cout, w22cout, w23cout;
 	wire [6:0] w24cout, w25cout, w26cout;
 	wire [7:0] w27cout, w28cout, w29cout;
-	wire [8:0] w30cout, w31cout, w32cout;
-	wire [9:0] w33cout, w34cout, w35cout;
-	wire [10:0]	w36cout, w37cout, w38cout, w39cout, w40cout, w41cout,
-					w42cout, w43cout, w44cout,	w45cout, w46cout, w47cout,
-					w48cout, w49cout, w50cout,	w51cout, w52cout, w53cout,
-					w54cout, w55cout, w56cout,	w57cout, w58cout, w59cout,
+	wire [8:0] w30cout, w31cout, w32cout,	w33cout, w34cout, w35cout,	
+					w36cout, w37cout, w38cout, 	w39cout, w40cout, w41cout,	
+					w42cout, w43cout, w44cout,	w45cout, w46cout, w47cout,	
+					w48cout, w49cout, w50cout,	w51cout, w52cout, w53cout,	
+					w54cout, w55cout, w56cout,	w57cout, w58cout, w59cout,	
 					w60cout, w61cout, w62cout,	w63cout;
-					
-	
-	
+			
 	assign a_w[0] = pp0[0];
 	assign a_w[1] = pp0[1];
 	assign a_w[2] = pp0[2];

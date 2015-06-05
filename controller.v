@@ -6,7 +6,7 @@ module controller(clock, reset, mode, done, product);
 
 	// RAM 32x64
 	reg [63:0] bank [31:0];
-	reg [7:0] A_addr, B_addr;
+	reg [4:0] A_addr, B_addr;
 	
 	// buffers
 
@@ -58,7 +58,8 @@ module controller(clock, reset, mode, done, product);
 		end
 		else begin
 			//state <= next;
-			A_addr <= (A_addr == 31)? A_addr <= 8'd0: (A_addr + 2);
+			//A_addr <= (A_addr == 31)? A_addr <= 8'd0: (A_addr + 2);
+			A_addr <= A_addr + 2;
 			done <= 1'b1;
 		end
 	end
@@ -76,7 +77,7 @@ module controller(clock, reset, mode, done, product);
 		tmp_mode <= mode;	
 
 		case(mode)
-			M4, M1: begin // make M4 default here for now
+			M1: begin // make M4 default here for now
 				A_u8 <= bank[A_addr][7:0];
 				B_u8 <= bank[B_addr][7:0];
 			end
@@ -97,7 +98,7 @@ module controller(clock, reset, mode, done, product);
 
 
 	// load output
-	always @(tmp_mode, P_u8, P_8, P_16)
+	always @(tmp_mode, P_u8, P_8, P_16, P_32)
 		case(tmp_mode)
 			M1: product = P_u8; // M4 default here for now
 			M2: product = P_8;
@@ -118,6 +119,8 @@ module controller(clock, reset, mode, done, product);
 	mplier8x8 m8(P_8, A_8, B_8);
 	//dummy_16 m16(P_16, A_16, B_16);
 	mplier16x16 m16(P_16, A_16, B_16);
+	
+	mplier32x32 m32(P_32, A_32, B_32);
 		
 endmodule // controller
 
