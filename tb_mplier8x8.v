@@ -9,8 +9,8 @@ module tb_mplier8x8;
 
 	initial begin
 		$display("begin");
-		for(a = 9'b0; a[8] != 1'b1; a = a + 10) begin
-			for(b = 9'b0; b[8] != 1'b1; b = b + 10) begin
+		for(a = 9'b0; a[8] != 1'b1; a = a + 1) begin
+			for(b = 9'b0; b[8] != 1'b1; b = b + 1) begin
 				product = $signed(a[7:0]) * $signed(b[7:0]);
 				#10;
 				if(product != raw_product && product < 17'h10000)

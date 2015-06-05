@@ -12,9 +12,10 @@ module tb_mplieru8x8;
 			product = test_vector[15:8] * test_vector[7:0];
 			#10;
 			if(product != raw_product && product < 17'h10000)
-				$display("%dx%d != %d, %d",
+				$display("ERROR: %dx%d != %d, %d",
 					test_vector[15:8], test_vector[7:0], raw_product, product);
-			$display("%dx%d=%d",test_vector[15:8], test_vector[7:0], raw_product);
+			$display("%dx%d=%d, %d",
+				test_vector[15:8], test_vector[7:0], raw_product, product);
 		end
 		$display("end");
 	end
